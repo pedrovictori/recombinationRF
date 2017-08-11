@@ -26,8 +26,25 @@ fit = randomForest(x,y,
                    importance = TRUE,
                    ntree = 5000)
 
-save(fit,"randomForestBin.RData")
+#print time and execution time for the randomForest to be made
+cuTime = Sys.time() - startTime
+print(paste("Random forest made. Current time: ", Sys.time(), ". Execution time: ", endTime, " seconds"))
+
+#save the model as a RData file
+save(fit,file = "randomForestBin.RData")
 print(fit)
 
+#make a variable importance plot and save it as a png file
+png(filename= "varImpPlot.png")
+varImpPlot(fit)
+dev.off()
+
+#validating model
+validation = read_csv("validation.csv")
+validation = subset(validation, select= -c(isHot)) #remove isHot column from validation data
+prediction = predict(fit,validation)
+subtest = data.frame(name = validation$name,isHot = prediction)
+
+#print time and total execution time 
 endTime = Sys.time() - startTime
 print(paste("Script randomForest finished executing at: ", Sys.time(), "and took ", endTime, " seconds"))
