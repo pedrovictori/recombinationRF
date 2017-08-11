@@ -5,7 +5,7 @@ library(readr)
 startTime = Sys.time()
 print(paste("Script randomForest started executing at: ", startTime))
 
-load("subTraining.Rdata")
+subTraining = read_csv("subTraining.csv")
 
 #get random 25% subsample 
 sub = subTraining[sample(nrow(subTraining)*.25),]

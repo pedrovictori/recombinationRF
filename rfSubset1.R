@@ -3,7 +3,7 @@ library(randomForest)
 library(readr)
 
 startTime = Sys.time()
-print(startTime)
+print(paste("Script rfSubset1 started executing at: ", startTime))
 
 coldspots <- read_csv("coldspots.csv")
 hotspots <- read_csv("hotspots.csv")
@@ -27,11 +27,11 @@ subTraining = training[c(1:index80),]
 validation = training[c((index80+1):(nrow(training)+1)),]
 
 #save subsets to binary
-save(data, file="data.RData")
-save(training, file="training.RData")
-save(testing, file="testing.RData")
-save(subTraining, file="subTraining.RData")
-save(validation, file="validation.RData")
+write_csv(data, "data.csv")
+write_csv(training, "training.csv")
+write_csv(testing, "testing.csv")
+write_csv(subTraining, "subTraining.csv")
+write_csv(validation, "validation.csv")
 
 execTime = Sys.time() - startTime
 print(paste("Script subsetting1 finished executing at: ", Sys.time(), "and took ",execTime, "seconds"))
