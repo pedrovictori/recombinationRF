@@ -35,7 +35,7 @@ save(fit,file = "randomForestBin.RData")
 print(fit)
 
 #make a variable importance plot and save it as a png file
-png(filename= "varImpPlot.png")
+png(filename= "varImpPlot.png", width=1024, height = 955)
 varImpPlot(fit)
 dev.off()
 
@@ -49,12 +49,16 @@ subtest = data.frame(name = validation$name, isReallyHot = validation$isHot, isP
 #matches
 matches = sum(subtest$isReallyHot == subtest$isPredictedHot)
 matchesPercentage = matches*100/nrow(subtest)
+matchesPercentage = round(matchesPercentage,2)
+print(paste("Match count: ", matches, ". Match percentage: ", matchesPercentage, "%"))
 
 #false positives
 fp = sum((subtest$isReallyHot == 0) & (subtest$isPredictedHot ==1))
+print(paste("False positives count: ", fp, "."))
 
 #false negatives
 fn = sum((subtest$isReallyHot == 1) & (subtest$isPredictedHot ==0))
+print(paste("False negatives count: ", np, "."))
 
 #print time and total execution time 
 endTime = Sys.time() - startTime
