@@ -16,3 +16,7 @@ vignettes/*.pdf
 .httr-oauth
 
 *.csv
+
+*.png
+
+*.RData

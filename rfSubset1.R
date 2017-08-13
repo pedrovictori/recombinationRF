@@ -13,17 +13,17 @@ hotspots$isHot = 1
 data = rbind(coldspots,hotspots[1:17547,])
 
 #shuffle data row-wise
-data = data[sample(nrow(data)),]
+data = as.data.frame(data)
 
 #split in two dataframes, 80% for training and 20% for testing
-index80 = nrow(data) * .8
+index80 = floor(nrow(data) * .8)
 training = data[c(1:index80),]
-testing = data[c((index80+1):(nrow(data)+1)),]
+testing = data[c((index80+1):(nrow(data))),]
 
 #split training in two other dataframes, 80% for training and 20% for validation
-index80 = nrow(training) * .8
+index80 = floor(nrow(training) * .8)
 subTraining = training[c(1:index80),]
-validation = training[c((index80+1):(nrow(training)+1)),]
+validation = training[c((index80+1):(nrow(training))),]
 
 #save subsets to binary
 write_csv(data, "data.csv")

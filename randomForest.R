@@ -28,7 +28,7 @@ fit = randomForest(x,y,
 
 #print time and execution time for the randomForest to be made
 cuTime = Sys.time() - startTime
-print(paste("Random forest made. Current time: ", Sys.time(), ". Execution time: ", endTime, " seconds"))
+print(paste("Random forest made. Current time: ", Sys.time(), ". Execution time: ", cuTime, " seconds"))
 
 #save the model as a RData file
 save(fit,file = "randomForestBin.RData")
@@ -42,8 +42,19 @@ dev.off()
 #validating model
 validation = read_csv("validation.csv")
 validation = subset(validation, select= -c(isHot)) #remove isHot column from validation data
+validation = validation[,-2] #remove name column
 prediction = predict(fit,validation)
-subtest = data.frame(name = validation$name,isHot = prediction)
+subtest = data.frame(name = validation$name, isReallyHot = validation$isHot, isPredictedHot = prediction)
+
+#matches
+matches = sum(subtest$isReallyHot == subtest$isPredictedHot)
+matchesPercentage = matches*100/nrow(subtest)
+
+#false positives
+fp = sum((subtest$isReallyHot == 0) & (subtest$isPredictedHot ==1))
+
+#false negatives
+fn = sum((subtest$isReallyHot == 1) & (subtest$isPredictedHot ==0))
 
 #print time and total execution time 
 endTime = Sys.time() - startTime
