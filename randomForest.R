@@ -61,5 +61,6 @@ fn = sum((subtest$isReallyHot == 1) & (subtest$isPredictedHot ==0))
 print(paste("False negatives count: ", np, "."))
 
 #print time and total execution time 
-endTime = Sys.time() - startTime
-print(paste("Script randomForest finished executing at: ", Sys.time(), "and took ", endTime, " seconds"))
+endTime = Sys.time()
+execTime = endTime - startTime
+print(paste("Script randomForest finished executing at: ", endTime, "and took ", execTime, " seconds"))

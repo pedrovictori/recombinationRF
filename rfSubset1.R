@@ -32,5 +32,7 @@ write_csv(testing, "testing.csv")
 write_csv(subTraining, "subTraining.csv")
 write_csv(validation, "validation.csv")
 
-execTime = Sys.time() - startTime
-print(paste("Script subsetting1 finished executing at: ", Sys.time(), "and took ",execTime, "seconds"))
+#print time and total execution time 
+endTime = Sys.time()
+execTime = endTime - startTime
+print(paste("Script rfSubset1 finished executing at: ", endTime, "and took ", execTime, " seconds"))

@@ -5,7 +5,7 @@ library(foreach)
 library(doParallel)
 
 startTime = Sys.time()
-print(paste("Script ParallelRandomForest started executing at: ", startTime))
+print(paste("Script parallelRandomForest started executing at: ", startTime))
 
 subTraining = read_csv("subTraining.csv")
 
@@ -16,7 +16,7 @@ cl <- makeCluster(cores[1]-1) #not to overload computer
 registerDoParallel(cl)
 
 #folder for storing the random forest objects in binary form
-dir.create("fits")
+#dir.create("fits")
 
 foreach(i=1:100, .packages = 'randomForest') %dopar% {
   #get random 25% subsample 
@@ -43,5 +43,6 @@ foreach(i=1:100, .packages = 'randomForest') %dopar% {
 }
 
 #print time and total execution time 
-endTime = Sys.time() - startTime
-print(paste("Script ParallelRandomForest finished executing at: ", Sys.time(), "and took ", endTime, " seconds"))
+endTime = Sys.time()
+execTime = endTime - startTime
+print(paste("Script parallelRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds"))
