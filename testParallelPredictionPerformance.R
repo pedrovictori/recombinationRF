@@ -49,7 +49,7 @@ perfData = foreach(i=1:5,combine=data.frame, .packages = c('randomForest','readr
 
 #save results to csv
 perfResults = do.call(rbind, perfData)
-#write_csv(perfResults, "perfResults.csv")
+write_csv(perfResults, "perfResults.csv")
 
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()

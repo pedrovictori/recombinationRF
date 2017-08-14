@@ -4,7 +4,7 @@ library(readr)
 library(RPushbullet)
 
 startTime = Sys.time()
-print(paste("Script randomForest started executing at: ", startTime))
+cat("Script randomForest started executing at: ", startTime)
 
 subTraining = read_csv("subTraining.csv")
 
@@ -29,11 +29,11 @@ fit = randomForest(x,y,
 
 #print time and execution time for the randomForest to be made
 cuTime = Sys.time() - startTime
-print(paste("Random forest made. Current time: ", Sys.time(), ". Execution time: ", cuTime, " seconds"))
+cat("Random forest made. Current time: ", Sys.time(), ". Execution time: ", cuTime, " seconds")
 
 #save the model as a RData file
 save(fit,file = "randomForestBin.RData")
-print(fit)
+cat(fit)
 
 #make a variable importance plot and save it as a png file
 png(filename= "varImpPlot.png", width=1024, height = 955)
@@ -51,19 +51,19 @@ subtest = data.frame(name = validation$name, isReallyHot = validation$isHot, isP
 matches = sum(subtest$isReallyHot == subtest$isPredictedHot)
 matchesPercentage = matches*100/nrow(subtest)
 matchesPercentage = round(matchesPercentage,2)
-print(paste("Match count: ", matches, ". Match percentage: ", matchesPercentage, "%"))
+cat("Match count: ", matches, ". Match percentage: ", matchesPercentage, "%")
 
 #false positives
 fp = sum((subtest$isReallyHot == 0) & (subtest$isPredictedHot ==1))
-print(paste("False positives count: ", fp, "."))
+cat("False positives count: ", fp, ".")
 
 #false negatives
 fn = sum((subtest$isReallyHot == 1) & (subtest$isPredictedHot ==0))
-print(paste("False negatives count: ", np, "."))
+cat("False negatives count: ", np, ".")
 
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script randomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
-print(msg)
+cat(msg)
 pbPost("note", "execution finished", msg)

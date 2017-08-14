@@ -6,7 +6,7 @@ library(doParallel)
 library(RPushbullet)
 
 startTime = Sys.time()
-print(paste("Script parallelRandomForest started executing at: ", startTime))
+cat("Script parallelRandomForest started executing at: ", startTime)
 
 subTraining = read_csv("subTraining.csv")
 
@@ -15,9 +15,7 @@ subTraining = read_csv("subTraining.csv")
 cores = detectCores()
 cl <- makeCluster(cores[1]-1) #not to overload computer
 registerDoParallel(cl)
-
-#folder for storing the random forest objects in binary form
-#dir.create("fits")
+cat("\ncluster set")
 
 foreach(i=1:100, .packages = 'randomForest') %dopar% {
   #get random 25% subsample 
@@ -47,5 +45,5 @@ foreach(i=1:100, .packages = 'randomForest') %dopar% {
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script parallelRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
-print(msg)
+cat(msg)
 pbPost("note", "execution finished", msg)
