@@ -3,7 +3,7 @@ library(readr)
 library(RPushbullet)
 
 startTime = Sys.time()
-cat("Script rfSubset1 started executing at: ", startTime)
+print(paste("Script rfSubset1 started executing at: ", startTime))
 
 coldspots <- read_csv("coldspots.csv")
 hotspots <- read_csv("hotspots.csv")
@@ -38,6 +38,6 @@ write_csv(validation, "validation.csv")
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script rfSubset1 finished executing at: ", endTime, "and took ", execTime, " seconds")
-cat(msg)
+print(msg)
 pbPost("note", "execution finished", msg)
 

@@ -6,7 +6,7 @@ library(doParallel)
 library(RPushbullet)
 
 startTime = Sys.time()
-cat("Script parallelRandomForest started executing at: ", startTime)
+print(paste("Script parallelRandomForest started executing at: ", startTime))
 
 subTraining = read_csv("subTraining.csv")
 
@@ -45,5 +45,5 @@ foreach(i=1:100, .packages = 'randomForest') %dopar% {
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script parallelRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
-cat(msg)
+print(msg)
 pbPost("note", "execution finished", msg)

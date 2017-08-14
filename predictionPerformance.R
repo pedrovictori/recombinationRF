@@ -4,7 +4,7 @@ library(readr)
 library(RPushbullet)
 
 startTime = Sys.time()
-cat("Script predictionPerformance started executing at: ", startTime)
+print(paste("Script predictionPerformance started executing at: ", startTime))
 
 #list for storing performance data
 perfData = list()
@@ -52,6 +52,6 @@ write_csv(perfResults, "perfResults.csv")
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script predictionPerformance finished executing at: ", endTime, "and took ", execTime, " seconds")
-cat(msg)
+print(msg)
 pbPost("note", "execution finished", msg)
 

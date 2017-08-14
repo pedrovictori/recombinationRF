@@ -29,7 +29,7 @@ fit = randomForest(x,y,
 
 #print time and execution time for the randomForest to be made
 cuTime = Sys.time() - startTime
-cat("Random forest made. Current time: ", Sys.time(), ". Execution time: ", cuTime, " seconds")
+print(paste("Random forest made. Current time: ", Sys.time(), ". Execution time: ", cuTime, " seconds"))
 
 #save the model as a RData file
 save(fit,file = "randomForestBin.RData")
@@ -65,5 +65,5 @@ cat("False negatives count: ", np, ".")
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script randomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
-cat(msg)
+print(msg)
 pbPost("note", "execution finished", msg)

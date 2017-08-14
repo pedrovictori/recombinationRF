@@ -6,7 +6,7 @@ library(doParallel)
 library(RPushbullet)
 
 startTime = Sys.time()
-cat("Script parallelpredictionPerformance started executing at: ", startTime,"\n")
+print(paste("Script parallelpredictionPerformance started executing at: ", startTime))
 
 #setup parallel backend
 cores = detectCores()
@@ -56,6 +56,6 @@ write_csv(perfResults, "perfResults.csv")
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script parallelpredictionPerformance finished executing at: ", endTime, "and took ", execTime, " seconds")
-cat(msg)
+print(msg)
 pbPost("note", "execution finished", msg)
 
