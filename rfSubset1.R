@@ -25,7 +25,7 @@ index80 = floor(nrow(training) * .8)
 subTraining = training[c(1:index80),]
 validation = training[c((index80+1):(nrow(training))),]
 
-#save subsets to binary
+#save subsets to csv
 write_csv(data, "data.csv")
 write_csv(training, "training.csv")
 write_csv(testing, "testing.csv")
