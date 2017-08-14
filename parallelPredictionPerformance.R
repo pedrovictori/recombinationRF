@@ -6,7 +6,7 @@ library(doParallel)
 library(RPushbullet)
 
 startTime = Sys.time()
-print(paste("Script performancePrediction started executing at: ", startTime))
+print(paste("Script parallelpredictionPerformance started executing at: ", startTime))
 
 #Parallel loop
 #setup parallel backend
@@ -19,7 +19,7 @@ perfData = list()
 
 #folder containing the Rdata files
 path = paste(getwd(),"/fits",sep="")
-file.fits = dir(path, pattern = ".Rdata")
+file.fits = dir(path, pattern = ".RData")
 
 foreach(i=1:length(file.fits), .packages = c('randomForest','readr')) %dopar% {
   #load file
@@ -59,7 +59,7 @@ write_csv(perfResults, "perfResults.csv")
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
-msg = paste("Script performancePrediction finished executing at: ", endTime, "and took ", execTime, " seconds")
+msg = paste("Script parallelpredictionPerformance finished executing at: ", endTime, "and took ", execTime, " seconds")
 print(msg)
 pbPost("note", "execution finished", msg)
 

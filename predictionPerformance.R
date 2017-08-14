@@ -4,14 +4,14 @@ library(readr)
 library(RPushbullet)
 
 startTime = Sys.time()
-print(paste("Script performancePrediction started executing at: ", startTime))
+print(paste("Script predictionPerformance started executing at: ", startTime))
 
 #list for storing performance data
 perfData = list()
 
 #folder containing the Rdata files
 path = paste(getwd(),"/fits",sep="")
-file.fits = dir(path, pattern = ".Rdata")
+file.fits = dir(path, pattern = ".RData")
 
 for(i in 1:length(file.fits)){
   #load file
@@ -51,7 +51,7 @@ write_csv(perfResults, "perfResults.csv")
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
-msg = paste("Script performancePrediction finished executing at: ", endTime, "and took ", execTime, " seconds")
+msg = paste("Script predictionPerformance finished executing at: ", endTime, "and took ", execTime, " seconds")
 print(msg)
 pbPost("note", "execution finished", msg)
 
