@@ -32,7 +32,10 @@ write_csv(testing, "testing.csv")
 write_csv(subTraining, "subTraining.csv")
 write_csv(validation, "validation.csv")
 
-#print time and total execution time 
+#print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
-print(paste("Script rfSubset1 finished executing at: ", endTime, "and took ", execTime, " seconds"))
+msg = paste("Script rfSubset1 finished executing at: ", endTime, "and took ", execTime, " seconds")
+print(msg)
+pbPost("note", "execution finished", msg)
+

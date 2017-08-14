@@ -1,6 +1,7 @@
 setwd("/home/victori/randomForest")
 library(randomForest)
 library(readr)
+library(RPushbullet)
 
 startTime = Sys.time()
 print(paste("Script randomForest started executing at: ", startTime))
@@ -60,7 +61,9 @@ print(paste("False positives count: ", fp, "."))
 fn = sum((subtest$isReallyHot == 1) & (subtest$isPredictedHot ==0))
 print(paste("False negatives count: ", np, "."))
 
-#print time and total execution time 
+#print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
-print(paste("Script randomForest finished executing at: ", endTime, "and took ", execTime, " seconds"))
+msg = paste("Script randomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
+print(msg)
+pbPost("note", "execution finished", msg)

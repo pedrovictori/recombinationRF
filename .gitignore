@@ -20,3 +20,7 @@ vignettes/*.pdf
 *.png
 
 *.RData
+
+\.rpushbullet\.json
+
+\.DS_Store

@@ -42,7 +42,9 @@ foreach(i=1:100, .packages = 'randomForest') %dopar% {
   save(fit,file = paste(getwd(),"/fits/fit", i, ".RData", sep = ""))
 }
 
-#print time and total execution time 
+#print time and total execution time, send Pushbullet notification 
 endTime = Sys.time()
 execTime = endTime - startTime
-print(paste("Script parallelRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds"))
+msg = paste("Script parallelRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
+print(msg)
+pbPost("note", "execution finished", msg)
