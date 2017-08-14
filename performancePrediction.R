@@ -19,9 +19,9 @@ perfData = list()
 #folder containing the Rdata files
 path = paste(getwd(),"/fits",sep="")
 file.fits = dir(path, pattern = ".Rdata")
-foreach(i=1:length(file.fits), .packages = 'randomForest') %dopar% {
+foreach(i=1:length(file.fits), .packages = c('randomForest','readr')) %dopar% {
   #load file
-  filename = paste(getwd(),"/fits/fit", i, ".RData", sep = "")
+  filename = paste("./fits/fit", i, ".RData", sep = "")
   temp.space = new.env()
   loading = load(filename,temp.space)
   fit = get(loading,temp.space)
