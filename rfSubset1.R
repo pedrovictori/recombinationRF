@@ -1,5 +1,6 @@
 setwd("/home/victori/recombinationRF")
 library(readr)
+library(RPushbullet)
 
 startTime = Sys.time()
 print(paste("Script rfSubset1 started executing at: ", startTime))

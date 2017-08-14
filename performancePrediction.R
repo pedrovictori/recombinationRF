@@ -3,6 +3,7 @@ library(randomForest)
 library(readr)
 library(foreach)
 library(doParallel)
+library(RPushbullet)
 
 startTime = Sys.time()
 print(paste("Script performancePrediction started executing at: ", startTime))
@@ -21,11 +22,8 @@ path = paste(getwd(),"/fits",sep="")
 file.fits = dir(path, pattern = ".Rdata")
 foreach(i=1:length(file.fits), .packages = c('randomForest','readr')) %dopar% {
   #load file
-  filename = paste("./fits/fit", i, ".RData", sep = "")
-  temp.space = new.env()
-  loading = load(filename,temp.space)
-  fit = get(loading,temp.space)
-  rm(temp.space)
+  filename = paste(getwd(),"/fits/fit", i, ".RData", sep = "")
+  load(filename)
   
   #make a variable importance plot and save it as a png file
   png(filename= paste("varImpPlot",i,".png", sep = ""), width=1024, height = 955)

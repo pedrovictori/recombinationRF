@@ -3,6 +3,7 @@ library(randomForest)
 library(readr)
 library(foreach)
 library(doParallel)
+library(RPushbullet)
 
 startTime = Sys.time()
 print(paste("Script parallelRandomForest started executing at: ", startTime))
