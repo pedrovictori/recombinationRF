@@ -6,18 +6,18 @@ library(doParallel)
 library(RPushbullet)
 
 startTime = Sys.time()
-print(paste("Script testParallelpredictionPerformance started executing at: ", startTime))
+cat("Script testParallelpredictionPerformance started executing at: ", startTime,"\n")
 
-#Parallel loop
+
 #setup parallel backend
 cores = detectCores()
 cl <- makeCluster(6)
 registerDoParallel(cl)
 
-#list for storing performance data
-perfData = list()
+cat("\ncluster set")
 
-foreach(i=1:5, .packages = c('randomForest','readr')) %dopar% {
+#parallel for loop
+perfData = foreach(i=1:5,combine=data.frame, .packages = c('randomForest','readr')) %dopar% {
   #load file
   filename = paste("./fits/fit", i, ".RData", sep = "")
   load(filename)
@@ -43,19 +43,18 @@ foreach(i=1:5, .packages = c('randomForest','readr')) %dopar% {
   #false negatives
   fn = sum((subtest$isReallyHot == 1) & (subtest$isPredictedHot ==0))
   
-  #storing
-  data = data.frame(matches = matches, matchesPer100 = matchesPercentage, falsePositives = fp, falseNegatives = fn)
-  perfData[[i]] = data
+  #return object
+  data.frame(matches = matches, matchesPer100 = matchesPercentage, falsePositives = fp, falseNegatives = fn)
 }
 
 #save results to csv
 perfResults = do.call(rbind, perfData)
-write_csv(perfResults, "perfResults.csv")
+#write_csv(perfResults, "perfResults.csv")
 
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
 msg = paste("Script testParallelpredictionPerformance finished executing at: ", endTime, "and took ", execTime, " seconds")
-print(msg)
+cat(msg)
 pbPost("note", "execution finished", msg)
 
