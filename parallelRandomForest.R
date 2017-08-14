@@ -33,15 +33,10 @@ foreach(i=1:100, .packages = 'randomForest') %dopar% {
   x = subset(sub, select =-c(isHot))
   
   #random forest
-  print(paste("starting random forest ", i, " at ", Sys.time(), sep= ""))
   set.seed(42)
   fit = randomForest(x,y,
                      importance = TRUE,
                      ntree = 5000)
-  
-  #print time and execution time for the randomForest to be made
-  cuTime = Sys.time() - startTime
-  print(paste("Random forest made. Current time: ", Sys.time(), ". Execution time: ", cuTime, " seconds"))
   
   #save the model as a RData file
   save(fit,file = paste(getwd(),"/fits/fit", i, ".RData", sep = ""))
