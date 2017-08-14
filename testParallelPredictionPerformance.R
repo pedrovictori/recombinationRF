@@ -11,7 +11,7 @@ print(paste("Script testParallelpredictionPerformance started executing at: ", s
 #Parallel loop
 #setup parallel backend
 cores = detectCores()
-cl <- makeCluster(cores[1]-1) #not to overload computer
+cl <- makeCluster(6)
 registerDoParallel(cl)
 
 #list for storing performance data
