@@ -15,6 +15,7 @@ data = rbind(coldspots,hotspots[1:17547,])
 
 #shuffle data row-wise
 data = as.data.frame(data)
+data = data[sample(nrow(data)),]
 
 #split in two dataframes, 80% for training and 20% for testing
 index80 = floor(nrow(data) * .8)
