@@ -1,4 +1,4 @@
-setwd("/home/victori/randomForest")
+setwd("/home/victori/recombinationRF")
 library(randomForest)
 library(readr)
 library(foreach)

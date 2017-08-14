@@ -1,4 +1,4 @@
-setwd("/home/victori/randomForest")
+setwd("/home/victori/recombinationRF")
 library(readr)
 
 startTime = Sys.time()
