@@ -24,7 +24,7 @@ perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('rand
   load(filename)
   
   #make a variable importance plot and save it as a png file
-  png(filename= paste("varImpPlot",i,".png", sep = ""), width=1024, height = 955)
+  png(filename= paste("./varImpPlots/varImpPlot",i,".png", sep = ""), width=1024, height = 955)
   varImpPlot(fit)
   dev.off()
   
