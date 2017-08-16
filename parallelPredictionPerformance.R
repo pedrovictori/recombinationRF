@@ -71,6 +71,24 @@ perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('rand
 perfResults = do.call(rbind, perfData)
 write_csv(perfResults, "perfResults.csv")
 
+#all ROC in one plot
+#folder containing the Rdata files
+load("./ROCplots/RocObject1.RData")
+plot(perf_ROC)
+path = "./ROCplots"
+file.roc = dir(path, pattern = ".RData")
+
+for(i in 2:length(file.roc)){
+  #load file
+  filename = paste("./ROCplots/RocObject", i, ".RData", sep = "")
+  load(filename)# perf_ROC
+  
+  #plot ROC
+  png(filename= "./roc100.png")
+  plot(perf_ROC,add=TRUE, main="ROC of 100 random forests")
+  dev.off()
+}
+
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
