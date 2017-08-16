@@ -4,6 +4,7 @@ library(readr)
 library(foreach)
 library(doParallel)
 library(RPushbullet)
+library(ROCR)
 
 startTime = Sys.time()
 print(paste("Script parallelpredictionPerformance started executing at: ", startTime))
@@ -15,10 +16,10 @@ registerDoParallel(cl)
 cat("\ncluster set")
 
 #folder containing the Rdata files
-path = paste(getwd(),"/fits",sep="")
+path = "./fits"
 file.fits = dir(path, pattern = ".RData")
 
-perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('randomForest','readr')) %dopar% {
+perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('randomForest','readr','ROCR')) %dopar% {
   #load file
   filename = paste("./fits/fit", i, ".RData", sep = "")
   load(filename)
