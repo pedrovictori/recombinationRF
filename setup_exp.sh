@@ -7,6 +7,8 @@ mkdir $1/ROCplots
 mkdir $1/varImpPlots
 cp parallelPredictionPerformance.R $1
 cp parallelRandomForest.R $1
+cp .Renviron $1
+cp .Rprofile $1
 cp $2 $1
 cp $3 $1
 
