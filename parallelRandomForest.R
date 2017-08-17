@@ -1,4 +1,9 @@
 setwd("/home/victori/recombinationRF")
+library(RPushbullet)
+
+options(error = function() { 
+  pbPost("note", "Error", geterrmessage())
+})
 
 #default variables
 nIter = 100

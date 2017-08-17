@@ -6,20 +6,31 @@ library(doParallel)
 library(RPushbullet)
 library(ROCR)
 
+options(error = function() { 
+  pbPost("note", "Error", geterrmessage())
+})
+
 startTime = Sys.time()
 print(paste("Script parallelpredictionPerformance started executing at: ", startTime))
-
-#setup parallel backend
-cores = detectCores()
-cl <- makeCluster(cores[1]-1) #not to overload computer
-registerDoParallel(cl)
-cat("\ncluster set")
 
 #folder containing the Rdata files
 path = "./fits"
 file.fits = dir(path, pattern = ".RData")
+nFiles = length(file.fits)
+#setup parallel backend
+cores = detectCores()
+nCores = cores[1]-1  #not to overload computer
 
-perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('randomForest','readr','ROCR')) %dopar% {
+if(nFiles<nCores){ #only need one core per iteration
+  nCores = nFiles
+}
+
+cl <- makeCluster(nCores)
+
+registerDoParallel(cl)
+cat("\ncluster set")
+
+perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','readr','ROCR')) %dopar% {
   #load file
   filename = paste("./fits/fit", i, ".RData", sep = "")
   load(filename)
