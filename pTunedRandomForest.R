@@ -65,7 +65,7 @@ if((length(args)%%2 == 0) && (length(args) <= 8)){
 }
 
 startTime = Sys.time()
-print(paste("Script parallelRandomForest started executing at: ", startTime))
+print(paste("Script pTunedRandomForest started executing at: ", startTime))
 
 library(randomForest)
 library(readr)
@@ -105,7 +105,7 @@ foreach(i=1:nIter, .packages = 'randomForest') %dopar% {
   
   #random forest
   set.seed(42)
-  fit = tuneRF(x,y,doBest =TRUE, plot = FALSE #create a randomForest with optimal mtry true, create a plot false
+  fit = tuneRF(x,y,doBest =TRUE, plot = FALSE, #create a randomForest with optimal mtry true, create a plot false
                 importance = TRUE,
                 ntree = 5000)
   
@@ -116,6 +116,6 @@ foreach(i=1:nIter, .packages = 'randomForest') %dopar% {
 #print time and total execution time, send Pushbullet notification 
 endTime = Sys.time()
 execTime = endTime - startTime
-msg = paste("Script parallelRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
+msg = paste("Script pTunedRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
 print(msg)
 pbPost("note", "execution finished", msg)
