@@ -43,9 +43,9 @@ perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('rand
   AUC=perf_AUC@y.values[[1]]
   
   #plot ROC
-  png(filename= paste("./ROCplots/ROcplot",i,".png", sep = ""))
+  png(filename= paste("./ROCplots/ROCplot",i,".png", sep = ""))
   perf_ROC=performance(predictionROCR,"tpr","fpr") #plot the actual ROC curve
-  plot(perf_ROC, main="ROC plot")
+  plot(perf_ROC, main="ROC")
   text(0.5,0.5,paste("AUC = ",format(AUC, digits=5, scientific=FALSE)))
   abline(a=0,b=1)
   dev.off()
@@ -57,6 +57,11 @@ perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('rand
   #calculate ACC and save it to a RData file to plot all curves together later.
   perf_ACC = performance(predictionROCR, "acc")
   save(perf_ACC,file = paste("./ACCplots/AccObject", i, ".RData", sep = ""))
+  
+  #plot ACC
+  png(filename= paste("./ACCplots/ACCplot",i,".png", sep = ""))
+  plot(perf_ACC, main="ACC")
+  dev.off()
   
   #matches
   matches = sum(subtest$isReallyHot == subtest$isPredictedHot)
@@ -93,7 +98,6 @@ for(i in 2:length(file.roc)){
   load(filename)# perf_ROC
   
   #plot ROC
- 
   plot(perf_ROC,add=TRUE, main="ROC of 100 random forests")
 }
 dev.off()
@@ -112,8 +116,7 @@ for(i in 2:length(file.acc)){
   filename = paste("./ACCplots/AccObject", i, ".RData", sep = "")
   load(filename)# perf_ACC
   
-  #plot ROC
-  
+  #plot ACC
   plot(perf_ACC,add=TRUE, main="ACC of 100 random forests")
 }
 dev.off()
