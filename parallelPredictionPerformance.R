@@ -47,10 +47,16 @@ perfData = foreach(i=1:length(file.fits), combine=data.frame,.packages = c('rand
   perf_ROC=performance(predictionROCR,"tpr","fpr") #plot the actual ROC curve
   plot(perf_ROC, main="ROC plot")
   text(0.5,0.5,paste("AUC = ",format(AUC, digits=5, scientific=FALSE)))
+  abline(a=0,b=1)
   dev.off()
   
   #saving perf_ROC to a RData file to plot all curves together later.
   save(perf_ROC,file = paste("./ROCplots/RocObject", i, ".RData", sep = ""))
+  
+  
+  #calculate ACC and save it to a RData file to plot all curves together later.
+  perf_ACC = performance(predictionROCR, "acc")
+  save(perf_ACC,file = paste("./ACCplots/AccObject", i, ".RData", sep = ""))
   
   #matches
   matches = sum(subtest$isReallyHot == subtest$isPredictedHot)
@@ -72,9 +78,12 @@ perfResults = do.call(rbind, perfData)
 write_csv(perfResults, "perfResults.csv")
 
 #all ROC in one plot
+png(filename= "./roc100.png")
+
 #folder containing the Rdata files
 load("./ROCplots/RocObject1.RData")
 plot(perf_ROC)
+abline(a=0,b=1)
 path = "./ROCplots"
 file.roc = dir(path, pattern = ".RData")
 
@@ -84,10 +93,30 @@ for(i in 2:length(file.roc)){
   load(filename)# perf_ROC
   
   #plot ROC
-  png(filename= "./roc100.png")
+ 
   plot(perf_ROC,add=TRUE, main="ROC of 100 random forests")
-  dev.off()
 }
+dev.off()
+
+#all ACC in one plot
+png(filename= "./acc100.png")
+
+#folder containing the Rdata files
+load("./ACCplots/AccObject1.RData")
+plot(perf_ACC)
+path = "./ACCplots"
+file.acc = dir(path, pattern = ".RData")
+
+for(i in 2:length(file.acc)){
+  #load file
+  filename = paste("./ACCplots/AccObject", i, ".RData", sep = "")
+  load(filename)# perf_ACC
+  
+  #plot ROC
+  
+  plot(perf_ACC,add=TRUE, main="ACC of 100 random forests")
+}
+dev.off()
 
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
