@@ -1,4 +1,8 @@
-setwd("/home/victori/recombinationRF")
+#setting working directory
+this.dir <- dirname(parent.frame(2)$ofile)
+setwd(this.dir)
+cat("working directory: ",this.dir)
+
 library(randomForest)
 library(readr)
 library(foreach)
