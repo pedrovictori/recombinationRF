@@ -8,6 +8,7 @@ mkdir $1/fits
 mkdir $1/ACCplots
 mkdir $1/ROCplots
 mkdir $1/varImpPlots
+cp archive_exp.sh $1
 cp pPredictionPerformance.R $1
 cp .Renviron $1
 cp .Rprofile $1
