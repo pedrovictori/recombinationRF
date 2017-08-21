@@ -59,6 +59,6 @@ foreach(i=1:nIter,.packages = c('readr','randomForest')) %dopar% {
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
 execTime = endTime - startTime
-msg = paste("Script rfSubset1 finished executing at: ", endTime, "and took ", execTime, " seconds")
+msg = paste("Script pRFsubset finished executing at: ", endTime, "and took ", execTime, " seconds")
 print(msg)
 pbPost("note", "execution finished", msg)

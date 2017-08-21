@@ -64,7 +64,7 @@ if((length(args)%%2 == 0) && (length(args) <= 8)){
 }
 
 startTime = Sys.time()
-print(paste("Script parallelRandomForest started executing at: ", startTime))
+print(paste("Script pRandomForest started executing at: ", startTime))
 
 library(randomForest)
 library(readr)
@@ -115,6 +115,6 @@ foreach(i=1:nIter, .packages = 'randomForest') %dopar% {
 #print time and total execution time, send Pushbullet notification 
 endTime = Sys.time()
 execTime = endTime - startTime
-msg = paste("Script parallelRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
+msg = paste("Script pRandomForest finished executing at: ", endTime, "and took ", execTime, " seconds")
 print(msg)
 pbPost("note", "execution finished", msg)
