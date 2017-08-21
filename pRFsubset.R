@@ -44,7 +44,7 @@ cl <- makeCluster(nCores)
 registerDoParallel(cl)
 cat("\ncluster set")
 
-foreach(i=1:nIter,.packages = 'randomForest') %dopar% {
+foreach(i=1:nIter,.packages = c('readr','randomForest')) %dopar% {
   #split training in two other dataframes, 80% for training and 20% for validation
   get80 = floor(nrow(training) * .8)
   get20 = nrow(training) - get80
