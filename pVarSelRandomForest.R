@@ -71,6 +71,7 @@ library(readr)
 library(foreach)
 library(doParallel)
 library(RPushbullet)
+library(varSelRF)
 
 #load data
 subTraining = read_csv(inputName)
@@ -84,7 +85,7 @@ if(nIter<nCores){ #only need one core per iteration
   nCores = nIter
 }
 
-cl <- makeCluster(nCores)
+cl <- makeCluster(nCores, outfile = "log.txt")
 registerDoParallel(cl)
 cat("\ncluster set.", nCores," cores, ",nIter, " iterations, ",sampleSize, " sample size.")
 
