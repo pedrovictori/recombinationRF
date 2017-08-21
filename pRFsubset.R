@@ -35,8 +35,8 @@ path = "./subsets"
 cores = detectCores()
 nCores = cores[1]-1  #not to overload computer
 
-if(nFiles<nCores){ #only need one core per iteration
-  nCores = nFiles
+if(nIter<nCores){ #only need one core per iteration
+  nCores = nIter
 }
 
 cl <- makeCluster(nCores)
