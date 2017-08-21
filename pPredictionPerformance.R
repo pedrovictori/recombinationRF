@@ -83,7 +83,7 @@ perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','
   
   #false negatives
   fn = sum((subtest$isReallyHot == 1) & (subtest$isPredictedHot ==0))
-
+  
   #return object
   data.frame(treeID = i, AUC = AUC, matches = matches, matchesPer100 = matchesPercentage, falsePositives = fp, falseNegatives = fn)
 }
@@ -92,44 +92,48 @@ perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','
 perfResults = do.call(rbind, perfData)
 write_csv(perfResults, "perfResults.csv")
 
-#all ROC in one plot
-png(filename= "./roc100.png")
-
-#folder containing the Rdata files
-load("./ROCplots/RocObject1.RData")
-plot(perf_ROC)
-abline(a=0,b=1)
-path = "./ROCplots"
-file.roc = dir(path, pattern = ".RData")
-
-for(i in 2:length(file.roc)){
-  #load file
-  filename = paste("./ROCplots/RocObject", i, ".RData", sep = "")
-  load(filename)# perf_ROC
+if(nFiles > 1){
+  #all ROC in one plot
+  png(filename= "./rocAll.png")
   
-  #plot ROC
-  plot(perf_ROC,add=TRUE, main="ROC of 100 random forests")
-}
-dev.off()
-
-#all ACC in one plot
-png(filename= "./acc100.png")
-
-#folder containing the Rdata files
-load("./ACCplots/AccObject1.RData")
-plot(perf_ACC)
-path = "./ACCplots"
-file.acc = dir(path, pattern = ".RData")
-
-for(i in 2:length(file.acc)){
-  #load file
-  filename = paste("./ACCplots/AccObject", i, ".RData", sep = "")
-  load(filename)# perf_ACC
+  #folder containing the Rdata files
+  load("./ROCplots/RocObject1.RData")
+  plot(perf_ROC)
+  abline(a=0,b=1)
+  path = "./ROCplots"
+  file.roc = dir(path, pattern = ".RData")
   
-  #plot ACC
-  plot(perf_ACC,add=TRUE, main="ACC of 100 random forests")
+  for(i in 2:length(file.roc)){
+    #load file
+    filename = paste("./ROCplots/RocObject", i, ".RData", sep = "")
+    load(filename)# perf_ROC
+    
+    #plot ROC
+    plot(perf_ROC,add=TRUE, main="ROC of 100 random forests")
+  }
+  averageAUC = mean(perfResults$AUC)
+  text(0.5,0.5,paste("average AUC = ",format(averageAUC, digits=5, scientific=FALSE)))
+  dev.off()
+  
+  #all ACC in one plot
+  png(filename= "./accAll.png")
+  
+  #folder containing the Rdata files
+  load("./ACCplots/AccObject1.RData")
+  plot(perf_ACC)
+  path = "./ACCplots"
+  file.acc = dir(path, pattern = ".RData")
+  
+  for(i in 2:length(file.acc)){
+    #load file
+    filename = paste("./ACCplots/AccObject", i, ".RData", sep = "")
+    load(filename)# perf_ACC
+    
+    #plot ACC
+    plot(perf_ACC,add=TRUE, main="ACC of 100 random forests")
+  }
+  dev.off()
 }
-dev.off()
 
 #print time and total execution time, send Pushbullet notification
 endTime = Sys.time()
