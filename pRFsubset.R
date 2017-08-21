@@ -1,4 +1,6 @@
 library(readr)
+library(foreach)
+library(doParallel)
 library(RPushbullet)
 
 options(error = function() { 
@@ -12,8 +14,8 @@ nIter = 20
 #parameter parsing
 args = commandArgs(trailingOnly = TRUE)
 if(length(args)!=0){
-  if(length(args)==1 && is.numeric(args[1])){
-    nIter = args[1]
+  if(length(args)==1){
+    nIter = as.numeric(args[1])
   } else{
     print("bad argument input, exiting")
     quit(save="no")
