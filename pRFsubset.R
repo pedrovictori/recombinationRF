@@ -23,10 +23,10 @@ startTime = Sys.time()
 print(paste("Script pRFsubset started executing at: ", startTime))
 
 training <- read_csv("training.csv")
+
 #folder for storing the subsets 
 path = "./subsets"
-file.fits = dir(path, pattern = ".RData")
-nFiles = length(file.fits)
+
 #setup parallel backend
 cores = detectCores()
 nCores = cores[1]-1  #not to overload computer
@@ -46,6 +46,8 @@ foreach(i=1:nIter,.packages = 'randomForest') %dopar% {
   get20 = nrow(training) - get80
   subTraining = training[sample(nrow(training), get80), ]
   validation = training[sample(nrow(training), get20), ]
+  
+  #write csv
   write_csv(subTraining, paste(path,"/subTraining", i, ".csv",sep=""))
   write_csv(validation, paste(path,"/validation", i, ".csv",sep=""))
 }
