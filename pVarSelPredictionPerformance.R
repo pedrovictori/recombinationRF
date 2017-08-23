@@ -40,7 +40,7 @@ perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','
   write_csv(history, "history.csv")
   
   #storing selected variables as csv
-  selectedVars = fitVS$selected.model
+  selectedVars =data.frame(fitVS$selected.vars)
   write_csv(selectedVars, "selectedVars.csv")
   
   firstRF = fitVS$firstForest #forest without feature selection
@@ -126,11 +126,11 @@ perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','
   
   #matches
   matchesFirst = sum(testFirst$isReallyHot == testFirst$isPredictedHot)
-  matchesPercentageFirst = matches*100/nrow(testFirst)
+  matchesPercentageFirst = matchesFirst*100/nrow(testFirst)
   matchesPercentageFirst = round(matchesPercentageFirst,2)
   
   matchesSelected = sum(testSelected$isReallyHot == testSelected$isPredictedHot)
-  matchesPercentageSelected = matches*100/nrow(testSelected)
+  matchesPercentageSelected = matchesSelected*100/nrow(testSelected)
   matchesPercentageSelected = round(matchesPercentageSelected,2)
   
   #false positives
