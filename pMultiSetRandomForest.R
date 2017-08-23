@@ -13,7 +13,7 @@ print(paste("Script pMultiSetRandomForest started executing at: ", startTime))
 
 #folder containing the data
 path = "./subsets"
-file.sets = dir(path, pattern = "validation")
+file.sets = dir(path, pattern = "subTraining")
 nFiles = length(file.sets)
 
 #setup parallel backend
@@ -29,7 +29,7 @@ cl <- makeCluster(nCores)
 registerDoParallel(cl)
 cat("\ncluster set")
 
-perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','readr')) %dopar% {
+perfData = foreach(i=1:nFiles,.packages = c('randomForest','readr')) %dopar% {
   #load file
   filename = paste("./subsets/subTraining", i, ".csv", sep = "")
   subTraining = read_csv(filename)
