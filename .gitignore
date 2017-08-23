@@ -24,3 +24,5 @@ vignettes/*.pdf
 \.rpushbullet\.json
 
 \.DS_Store
+
+e6results/
