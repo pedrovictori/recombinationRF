@@ -159,7 +159,7 @@ write_csv(selectedForestResults, "selectedForestResults.csv")
 if(nFiles > 1){
   #all ROC in one plot
   png(filename= "./firstRocAll.png")
-  abline(a=0,b=1)
+  
   #folder containing the Rdata files
   path = "./ROCplots"
   file.roc = dir(path, pattern = "firstRocObject")
@@ -173,11 +173,12 @@ if(nFiles > 1){
     plot(perf_ROCFirst,add=(i!=1), main="ROC of all first forests")
   }
   averageAUCFirst = mean(firstForestResults$AUCf)
+  abline(a=0,b=1)
   text(0.8,0.2,paste("average AUC = ",format(averageAUCFirst, digits=5, scientific=FALSE)))
   dev.off()
   
   png(filename= "./selectedRocAll.png")
-  abline(a=0,b=1)
+ 
   #folder containing the Rdata files
   path = "./ROCplots"
   file.roc = dir(path, pattern = "selectedRocObject")
@@ -191,12 +192,13 @@ if(nFiles > 1){
     plot(perf_ROCSelected,add=(i!=1), main="ROC of all selected forests")
   }
   averageAUCSelected = mean(selectedForestResults$AUCs)
+  abline(a=0,b=1)
   text(0.8,0.2,paste("average AUC = ",format(averageAUCSelected, digits=5, scientific=FALSE)))
   dev.off()
   
   #all ROC of first and selected forests in one plot
   png(filename= "./allROC.png")
-  abline(a=0,b=1)
+
   #folder containing the Rdata files
   path = "./ROCplots"
   file.roc = dir(path, pattern = "selectedRocObject")
@@ -212,7 +214,7 @@ if(nFiles > 1){
     plot(perf_ROCSelected,add=(i!=1), main="ROC of all forests",col='blue')
     plot(perf_ROCFirst,add=TRUE, main="ROC of all forests",col='red')
   }
-  
+  abline(a=0,b=1)
   averageAUCFirst = mean(firstForestResults$AUCf)
   text(0.8,0.2,paste("average AUC = ",format(averageAUCFirst, digits=5, scientific=FALSE)),col='red')
   averageAUCSelected = mean(selectedForestResults$AUCs)
