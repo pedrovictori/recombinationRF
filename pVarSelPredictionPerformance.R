@@ -103,8 +103,8 @@ perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','
   
   #saving perf_ROC to a RData file to plot all curves together later.
   if(nFiles > 1){
-    save(perf_ROCFirst,file = paste("./ROCplots/FirstRocObject", i, ".RData", sep = ""))
-    save(perf_ROCSelected,file = paste("./ROCplots/SelectedRocObject", i, ".RData", sep = ""))
+    save(perf_ROCFirst,file = paste("./ROCplots/firstRocObject", i, ".RData", sep = ""))
+    save(perf_ROCSelected,file = paste("./ROCplots/selectedRocObject", i, ".RData", sep = ""))
   }
   
   #calculate ACC and save it to a RData file to plot all curves together later.
@@ -156,15 +156,17 @@ selectedForestResults = perfResults[,c(1,6,7,8,9)]
 write_csv(firstForestResults, "firstForestResults.csv")
 write_csv(selectedForestResults, "selectedForestResults.csv")
 
+#do plot of several curves if there is more than one forest
 if(nFiles > 1){
   #all ROC in one plot
+  #for first forest
   png(filename= "./firstRocAll.png")
   
   #folder containing the Rdata files
   path = "./ROCplots"
   file.roc = dir(path, pattern = "firstRocObject")
   
-  for(i in 2:length(file.roc)){
+  for(i in 1:length(file.roc)){
     #load file
     filename = paste("./ROCplots/firstRocObject", i, ".RData", sep = "")
     load(filename)# perf_ROCFirst
@@ -172,6 +174,7 @@ if(nFiles > 1){
     #plot ROC
     plot(perf_ROCFirst,add=(i!=1), main="ROC of all first forests")
   }
+  
   averageAUCFirst = mean(firstForestResults$AUCf)
   abline(a=0,b=1)
   text(0.8,0.2,paste("average AUC = ",format(averageAUCFirst, digits=5, scientific=FALSE)))
@@ -179,8 +182,8 @@ if(nFiles > 1){
   
   png(filename= "./selectedRocAll.png")
  
-  #folder containing the Rdata files
-  path = "./ROCplots"
+ 
+  #for selected forest
   file.roc = dir(path, pattern = "selectedRocObject")
   
   for(i in 1:length(file.roc)){
@@ -197,10 +200,8 @@ if(nFiles > 1){
   dev.off()
   
   #all ROC of first and selected forests in one plot
-  png(filename= "./allROC.png")
-
-  #folder containing the Rdata files
-  path = "./ROCplots"
+  png(filename= "./allROC.png", height = 800, width = 800)
+  
   file.roc = dir(path, pattern = "selectedRocObject")
   
   for(i in 1:length(file.roc)){
@@ -216,9 +217,9 @@ if(nFiles > 1){
   }
   abline(a=0,b=1)
   averageAUCFirst = mean(firstForestResults$AUCf)
-  text(0.8,0.2,paste("average AUC = ",format(averageAUCFirst, digits=5, scientific=FALSE)),col='red')
+  text(0.8,0.2,paste("first forests\n average AUC = ",format(averageAUCFirst, digits=5, scientific=FALSE)),col='red')
   averageAUCSelected = mean(selectedForestResults$AUCs)
-  text(0.8,0.3,paste("average AUC = ",format(averageAUCSelected, digits=5, scientific=FALSE)),col = 'blue')
+  text(0.8,0.3,paste("selected forests\n average AUC = ",format(averageAUCSelected, digits=5, scientific=FALSE)),col = 'blue')
   dev.off()
   
   #all ACC in one plot
@@ -238,6 +239,7 @@ if(nFiles > 1){
   }
   dev.off()
   
+  #all ACC curves in one plot
   png(filename= "./selectedAccAll.png")
   
   #folder containing the Rdata files
@@ -250,7 +252,7 @@ if(nFiles > 1){
     load(filename)# perf_ACC
     
     #plot ACC
-    plot(perf_ACCSelected,add=i!=1, main="ACC of all selected forests")
+    plot(perf_ACCSelected,add=(i!=1), main="ACC of all selected forests")
   }
   dev.off()
 }
