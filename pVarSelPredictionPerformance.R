@@ -37,11 +37,11 @@ perfData = foreach(i=1:nFiles, combine=data.frame,.packages = c('randomForest','
   
   #storing selection history as csv
   history = fitVS$selec.history
-  write_csv(history, paste("history",i,".csv",sep=""))
+  write_csv(history, paste("./varSelHistory/history",i,".csv",sep=""))
   
   #storing selected variables as csv
   selectedVars =data.frame(fitVS$selected.vars)
-  write_csv(selectedVars, paste("selectedVars",i,".csv",sep=""))
+  write_csv(selectedVars, paste("./varSelHistory/selectedVars",i,".csv",sep=""))
   
   firstRF = fitVS$firstForest #forest without feature selection
   selectedRF = fitVS$rf.model #the selected forest
